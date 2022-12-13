@@ -1,17 +1,16 @@
-#!/bin/bash
+# !/bin/bash
 
 function ft_main {
 	touch log.txt
-	for (( number=0; number < $num_folders; number++ ))
+	for ((number=0; number < $num_folders; number++))
 	do
-	echo ${number}
 	if [[ ${#al_list_folders} -lt 4 ]] #less
 	then
 	make_name_dir_less_four
-	make_files
+	#make_files
 	else
 	make_name_dir_more_four
-	make_files
+	#make_files
 	fi
 	name_dir=""
 	done
@@ -27,7 +26,6 @@ function make_name_dir_less_four {
 	name_dir+=${number}
 	name_dir+="_"
 	name_dir+=$(date +"%d%m%y")
-	#echo ${name_dir} # удалить
 	mkdir ${name_dir}
 	echo [$(date +'%e.%m.%Y')] $path"/"$name_dir >> log.txt
 
@@ -38,7 +36,6 @@ function make_name_dir_more_four {
 	name_dir+=${number}
 	name_dir+="_"
 	name_dir+=$(date +"%d%m%y")
-	#echo ${name_dir}
 	mkdir ${name_dir}
 	echo [$(date +'%e.%m.%Y')] $path"/"$name_dir >> log.txt
 }
@@ -51,10 +48,10 @@ function make_files {
 	if [[ ${#file_name_start} -lt 4 ]]
 	then
 	create_files_less_four
-	echo $path"/"$name_dir"/"$file_name --- $(date +'%e.%m.%Y') --- $size "Kb" >> log.txt
+	echo [$(date +'%e.%m.%Y')] $path"/"$name_dir"/"$file_name $size "Kb" >> log.txt
 	else
 	create_files_more_four
-	echo $path"/"$name_dir"/"$file_name --- $(date +'%e.%m.%Y') --- $size "Kb" >> log.txt
+	echo [$(date +'%e.%m.%Y')] $path"/"$name_dir"/"$file_name $size "Kb" >> log.txt
 	fi
 	done
 }
@@ -71,7 +68,7 @@ function create_files_less_four {
     name_file+=$(date +"%d%m%y")
     name_file+="."
     name_file+=$file_name_end
-    #fallocate -l $size "KB" ./$name_dir/$name_file # -l lenth fallocate -l 10MB my_big_file
+    fallocate -l $size"KB" ./$name_dir/$name_file # -l lenth fallocate -l 10MB my_big_file
     if [[ $(df / -BM | grep "/" | awk -F"M" '{ print $3 }') -le 1024 ]]
     then
         exit 1
@@ -85,7 +82,7 @@ function create_files_more_four {
     name_file+=$(date +"%d%m%y")
     name_file+="."
     name_file+=$file_name_end
-    #fallocate -l $size "KB" ./$name_dir/$name_file # -l lenth fallocate -l 10MB my_big_file
+    fallocate -l ${size}"KB" ./${name_dir}/${name_file} # -l lenth fallocate -l 10MB my_big_file
 	#проверить на вм
     if [[ $(df / -BM | grep "/" | awk -F"M" '{ print $3 }') -le 1024 ]]
     then

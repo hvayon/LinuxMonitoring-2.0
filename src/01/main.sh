@@ -1,6 +1,6 @@
 #!/bin/bash
 . ./moni.sh
-. ./check.sh
+#. ./check.sh
 
 export path=${1} #первый параметр
 export num_folders=${2}
